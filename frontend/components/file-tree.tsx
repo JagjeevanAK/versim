@@ -28,18 +28,15 @@ interface FileTreeItemProps {
   searchQuery?: string;
 }
 
-// Helper function to check if a node or its children match the search
 function nodeMatchesSearch(node: FileNode, query: string): boolean {
   if (!query) return true;
   
   const lowerQuery = query.toLowerCase();
   
-  // Check if current node matches
   if (node.name.toLowerCase().includes(lowerQuery)) {
     return true;
   }
-  
-  // Check if any children match
+
   if (node.children) {
     return node.children.some(child => nodeMatchesSearch(child, query));
   }
@@ -52,7 +49,6 @@ function FileTreeItem({ node, activeId, onSelect, level, searchQuery = "" }: Fil
   const isActive = activeId === node.id;
   const isFolder = node.kind === "folder";
 
-  // Check if this node should be visible based on search
   const shouldShow = nodeMatchesSearch(node, searchQuery);
   
   if (!shouldShow) return null;
