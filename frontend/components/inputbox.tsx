@@ -1,3 +1,4 @@
+"use client"
 import { ArrowRight } from 'lucide-react';
 import { cn } from "@/lib/utils"
 import { useRef, useState } from 'react';
@@ -10,7 +11,7 @@ interface InputBoxProps {
     onSendMessage?: (message: string) => void;
 }
 
-export default function InputBox({ width, maxHeight = "max-h-[200px]", style, onSendMessage }: InputBoxProps){
+export default function InputBox({ width, height, maxHeight = "max-h-[200px]", style, onSendMessage }: InputBoxProps){
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [input, setInput] = useState<string>("");
 
@@ -34,13 +35,20 @@ export default function InputBox({ width, maxHeight = "max-h-[200px]", style, on
     };
 
     return (
-        <div className={cn("bg-[#282825] rounded-3xl p-4")}>
+        <div 
+            className={cn("bg-[#282825] rounded-3xl p-4")}
+            style={{ 
+                width: width,
+                height: height,
+                maxHeight: maxHeight?.startsWith('max-h-') ? undefined : maxHeight 
+            }}
+        >
             <textarea
                 ref={textareaRef}
                 autoFocus
                 onInput={handleInput}
                 onChange={(e) => setInput(e.target.value)}
-                className={cn("w-full bg-transparent text-white outline-none pl-1 min-h-10 resize-none overflow-y-auto placeholder:text-muted-foreground selection:bg-primary/20 selection:text-primary caret-white text-lg", style, width, maxHeight)}
+                className={cn("w-full bg-transparent text-white outline-none pl-1 min-h-10 resize-none overflow-y-auto placeholder:text-muted-foreground selection:bg-primary/20 selection:text-primary caret-white text-lg", style, maxHeight?.startsWith('max-h-') ? maxHeight : undefined)}
                 placeholder="Type your message..."
                 value={input}
                 onKeyDown={(e) => {
