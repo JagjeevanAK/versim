@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 export default function CodeEditor() {
   const [files, setFiles] = useState<FileNode[]>(getInitialFileTree());
-  const [openTabs, setOpenTabs] = useState<string[]>(["app-tsx"]); // Track open file IDs
+  const [openTabs, setOpenTabs] = useState<string[]>(["app-tsx"]);
   const [activeFileId, setActiveFileId] = useState<string>("app-tsx");
 
   const activeFile = findFileById(files, activeFileId);
@@ -27,15 +27,13 @@ export default function CodeEditor() {
   };
 
   const handleTabClose = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent tab selection when closing
+    e.stopPropagation();
     
     const newOpenTabs = openTabs.filter(tabId => tabId !== id);
     setOpenTabs(newOpenTabs);
     
-    // If closing the active tab, switch to another tab
     if (id === activeFileId) {
       if (newOpenTabs.length > 0) {
-        // Switch to the last tab in the list
         setActiveFileId(newOpenTabs[newOpenTabs.length - 1]);
       } else {
         setActiveFileId("");
@@ -66,7 +64,7 @@ export default function CodeEditor() {
 
       <ResizableHandle isTransparent />
 
-      <ResizablePanel minSize={50}>
+      <ResizablePanel defaultSize={80} minSize={50}>
         <div className="h-full flex flex-col">
           {/* Tabs Bar */}
           {openTabs.length > 0 && (
@@ -118,6 +116,7 @@ export default function CodeEditor() {
                   wordWrap: "on",
                   automaticLayout: true,
                   scrollBeyondLastLine: false,
+                  readOnly: true,
                 }}
               />
             </div>

@@ -121,7 +121,7 @@ export default function FileTree({ nodes, activeId, onSelect, level = 0 }: FileT
   return (
     <div className="h-full flex flex-col bg-[#1D1D1D]">
       {/* Search Input */}
-      <div className="px-2 py-2 border-b border-gray-800">
+      <div className="px-2 py-1.5 border-b border-gray-800">
         <div className="relative">
           <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
           <input
