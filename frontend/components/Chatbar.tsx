@@ -19,15 +19,17 @@ interface ChatBarProps {
         stopStream: () => void;
         resetStream: () => void;
     };
+    initialPrompt?: string | null;
 }
 
-export default function ChatBar({ streamState }: ChatBarProps){
+export default function ChatBar({ streamState, initialPrompt }: ChatBarProps){
     const [messages, setMessages] = useState<Message[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const { data, isStreaming, error, startStream, resetStream } = streamState;
     const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
     const wasStreamingRef = useRef(false);
     const shouldSaveMessageRef = useRef(false);
+    const hasProcessedInitialPrompt = useRef(false);
 
     const handleSendMessage = async (message: string) => {
         setMessages((prev) => [
@@ -47,6 +49,16 @@ export default function ChatBar({ streamState }: ChatBarProps){
             shouldSaveMessageRef.current = false;
         }
     };
+
+    useEffect(() => {
+        if (initialPrompt && !hasProcessedInitialPrompt.current) {
+            hasProcessedInitialPrompt.current = true;
+            setTimeout(() => {
+                handleSendMessage(initialPrompt);
+            }, 0);
+        }
+    }, [initialPrompt]);
+
 
     useEffect(() => {
         // If we were streaming and now we're not, save the response

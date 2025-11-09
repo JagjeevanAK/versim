@@ -91,6 +91,9 @@ export async function fetchSandboxFileTree(
   // Directories to exclude from traversal
   const excludeDirs = ['node_modules', '.git', 'dist', 'build', '.next', '.vite', '.vite-temp'];
   
+  // Files to exclude (system/config files)
+  const excludeFiles = ['.bash_logout', '.bashrc', '.profile'];
+  
   const allFiles: SandboxFile[] = [];
   const dirsToProcess: string[] = [basePath];
   const processedDirs = new Set<string>();
@@ -108,10 +111,15 @@ export async function fetchSandboxFileTree(
     if (!files) continue;
 
     for (const file of files) {
-      // Skip excluded directories
       const fileName = file.name;
+      
       if (file.type === 'dir' && excludeDirs.includes(fileName)) {
         console.log('Skipping excluded directory:', fileName);
+        continue;
+      }
+      
+      if (file.type === 'file' && excludeFiles.includes(fileName)) {
+        console.log('Skipping excluded file:', fileName);
         continue;
       }
       

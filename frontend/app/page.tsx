@@ -1,7 +1,16 @@
+"use client"
+
 import InputBox from "@/components/inputbox";
 import AnimatedBackground from "@/components/animated-background";
+import { useRouter } from "next/navigation";
 
 export default function Home(){
+    const router = useRouter();
+
+    const handlePromptSubmit = (prompt: string) => {
+        router.push(`/projects?prompt=${encodeURIComponent(prompt)}`);
+    };
+
     return (
         <div className="relative flex items-center h-screen justify-center flex-col text-white">
             <AnimatedBackground />
@@ -19,6 +28,7 @@ export default function Home(){
                     height="auto" 
                     maxHeight="300px"
                     animatedPlaceholder={true}
+                    onSendMessage={handlePromptSubmit}
                 />
             </div>
         </div>
