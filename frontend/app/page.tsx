@@ -21,6 +21,10 @@ export default function Home(){
                 <div className="m-4 text-xl text-center opacity-90">
                     Create apps and websites by chatting with AI
                 </div>
+                <div className="flex space-x-4">
+                    <button onClick={() => router.push('/auth/signup')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Sign Up</button>
+                    <button onClick={() => router.push('/auth/signin')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Sign In</button>
+                </div>
             </div>
             <div className="z-10">
                 <InputBox 
